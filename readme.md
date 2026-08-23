@@ -1,40 +1,12 @@
-# Romala
+# Guaraguao
 
-**Romala** is a **keyboard layout for Romance languages**. It extends the standard English keyboard with **dead keys and accents**, enabling efficient typing in a wide range of Romance languages while also providing a rich set of **math, logic, and special symbols**.
-
-![Romala keyboard](keyboard.webp)
-
----
-
-## Supported Languages
-
-Romala provides full support for the following **Romance languages**:
-
-* **Spanish (spa)**
-* **Portuguese (por)**
-* **French (fra)**
-* **Italian (ita)**
-* **Romanian (ron)**
-* **Catalan / Valencian (cat)**
-* **Galician (glg)**
-* **Occitan (oci)**
-* **Sardinian (srd)**
-* **Ladin (lld)**
-* **Romansh (roh)**
-* **Asturian / Bable (ast)**
-* **Aranese (arg)**
-* **Corsican (cos)**
-* **Walloon (wln)**
-* **Mirandese (mwl)**
-* **Aromanian / Macedo-Romanian (rup)**
-
-These languages are fully supported with **dead keys for accented letters** and other **special characters**.
+**Guaraguao** is a **keyboard layout for Romance languages**. It extends the standard English keyboard with **dead keys and accents**, enabling efficient typing in a wide range of Romance languages while also providing a rich set of **math, logic, and special symbols**.
 
 ---
 
 ## Dead Keys Included
 
-Romala includes the following **dead keys**, used to type accented and diacritic characters:
+guaraguao includes the following **dead keys**, used to type accented and diacritic characters:
 
 ```
 ´ ¨ ^ ˇ ˘ ¯ ° ~ ¸ ˛
@@ -50,43 +22,60 @@ These allow typing characters such as:
 
 ---
 
-## Installation
+## Installation (NixOS)
 
-Romala installs as a **.deb package** and will:
+Guaraguao is distributed as a plain XKB symbols file plus a NixOS module. There's no package to build or install manually, you register it declaratively via [`services.xserver.xkb.extraLayouts`](https://search.nixos.org/options?query=services.xserver.xkb.extraLayouts), which works for X11 sessions and for Wayland compositors that read the system XKB database (Sway, Hyprland, etc. Sway just needs its own `xkb_layout` line pointed at it, see below).
 
-* Copy the `romala` symbols file to `/usr/share/X11/xkb/symbols/romala`
-* Append the layout to X11 rules (`base.lst`, `evdev.lst`, `base.xml`, `evdev.xml`)
-* Include snippet files for reference in `/usr/share/doc/romala-keyboard/`
+### With flakes
 
-### Install the package
+```nix
+{
+  inputs.guaraguao.url = "github:rama-oi/guaraguao";
 
-```sh
-sudo dpkg -i romala-keyboard_1.0_all.deb
+  outputs = { nixpkgs, guaraguao, ... }: {
+    nixosConfigurations.yourhost = nixpkgs.lib.nixosSystem {
+      modules = [
+        guaraguao.nixosModules.default
+        ./configuration.nix
+      ];
+    };
+  };
+}
 ```
 
-### Remove the package
+That registers the layout under the name `guaraguao`. Nothing else in your config needs to change unless you want it active somewhere specific. see below.
 
-```sh
-sudo dpkg -r romala-keyboard
+### Without flakes
+
+```nix
+services.xserver.xkb.extraLayouts =
+  (import (fetchTarball
+    "https://github.com/rama-oi/guaraguao/archive/refs/heads/master.tar.gz"
+  )).extraLayouts;
 ```
 
-This will safely remove the layout files and the entries added to your system.
+### Using the layout
+
+For a plain X11 session:
+
+```nix
+services.xserver.xkb.layout = "us,guaraguao";
+```
+
+For **Sway** (or another Wayland compositor that doesn't read `services.xserver.xkb.layout` on its own), set it directly in the compositor config:
+
+```
+input "type:keyboard" {
+    xkb_layout "us,guaraguao"
+    xkb_options "grp:win_space_toggle"
+}
+```
+
+Adjust `xkb_options` to whatever toggle key combo you prefer, or drop `us,` if you want guaraguao as your only layout.
 
 ---
 
-## Build the Debian Package
-
-From the `romala` folder:
-
-```sh
-dpkg-deb --build . .
-```
-
-This generates a `.deb` package ready for installation.
-
----
-
-## Romala Keyboard Layout
+## Guaraguao Keyboard Layout
 
 | Key | Default | Shift | AltGr           | Shift+AltGr |   |
 | --- | ------- | ----- | --------------- | ----------- | - |
@@ -142,7 +131,7 @@ This generates a `.deb` package ready for installation.
 
 ## Layout Information
 
-* **Name:** `romala`
+* **Name:** `guaraguao`
 * **Short Description:** `rom`
 * **Supported Languages:** See the detailed list above
 * **Dead Keys:** `´ ¨ ^ ˇ ˘ ¯ ° ~ ¸ ˛`
@@ -151,7 +140,5 @@ This generates a `.deb` package ready for installation.
 
 ## Notes
 
-* The package is **safe**: it appends entries to existing X11 configuration files rather than replacing them.
-* Snippets are included in `/usr/share/doc/romala-keyboard/` for reference.
-* No additional dependencies are required; Perl is used internally by the package for safe XML edits and is included in most Linux distributions by default.
-
+* Guaraguao is just the XKB `symbols/guaraguao` file plus a Nix module. no binaries, no post-install scripting, nothing that touches system files outside of what Nix builds declaratively.
+* License: GPL-3.0, see `license.md`.
