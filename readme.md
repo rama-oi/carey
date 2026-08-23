@@ -6,7 +6,7 @@
 
 ## Dead Keys Included
 
-guaraguao includes the following **dead keys**, used to type accented and diacritic characters:
+Guaraguao includes the following **dead keys**, used to type accented and diacritic characters:
 
 ```
 ´ ¨ ^ ˇ ˘ ¯ ° ~ ¸ ˛
