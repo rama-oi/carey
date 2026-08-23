@@ -132,7 +132,7 @@ Adjust `xkb_options` to whatever toggle key combo you prefer, or drop `us,` if y
 ## Layout Information
 
 * **Name:** `guaraguao`
-* **Short Description:** `rom`
+* **Short Description:** `gua`
 * **Supported Languages:** See the detailed list above
 * **Dead Keys:** `´ ¨ ^ ˇ ˘ ¯ ° ~ ¸ ˛`
 
