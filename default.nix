@@ -2,12 +2,12 @@
 #
 #   services.xserver.xkb.extraLayouts =
 #     (import (fetchTarball
-#       "https://github.com/rama-oi/guaraguao/archive/refs/heads/master.tar.gz"
+#       "https://github.com/rama-oi/carey/archive/refs/heads/master.tar.gz"
 #     )).extraLayouts;
 #
 {
-  extraLayouts.guaraguao = {
-    description = "Guaraguao";
+  extraLayouts.carey = {
+    description = "carey";
     languages = [
       "spa"
       "fra"
@@ -27,6 +27,6 @@
       "mwl"
       "rup"
     ];
-    symbolsFile = ./xkb/symbols/guaraguao;
+    symbolsFile = ./xkb/symbols/carey;
   };
 }

@@ -1,19 +1,19 @@
 {
-  description = "Guaraguao, a keyboard layout for Romance languages";
+  description = "carey, a keyboard layout for Romance languages";
 
   outputs = { self }: {
     # Drop this straight into your NixOS config's `imports`:
     #
-    #   inputs.guaraguao.url = "github:rama-oi/guaraguao";
+    #   inputs.carey.url = "github:rama-oi/carey";
     #
-    #   imports = [ inputs.guaraguao.nixosModules.default ];
+    #   imports = [ inputs.carey.nixosModules.default ];
     #
-    # That's it — the layout is registered as "guaraguao" and ready to
+    # That's it — the layout is registered as "carey" and ready to
     # reference from `services.xserver.xkb.layout` or a Sway/Hyprland
     # `xkb_layout` line.
     nixosModules.default = { lib, ... }: {
-      services.xserver.xkb.extraLayouts.guaraguao = {
-        description = "Guaraguao";
+      services.xserver.xkb.extraLayouts.carey = {
+        description = "carey";
         languages = [
           "spa"
           "fra"
@@ -33,12 +33,12 @@
           "mwl"
           "rup"
         ];
-        symbolsFile = ./xkb/symbols/guaraguao;
+        symbolsFile = ./xkb/symbols/carey;
       };
     };
 
     # Raw symbols file, for anyone who'd rather wire up extraLayouts
     # themselves instead of using the module above.
-    symbolsFile = ./xkb/symbols/guaraguao;
+    symbolsFile = ./xkb/symbols/carey;
   };
 }

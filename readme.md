@@ -1,12 +1,12 @@
-# Guaraguao
+# Carey
 
-**Guaraguao** is a **keyboard layout for Romance languages**. It extends the standard English keyboard with **dead keys and accents**, enabling efficient typing in a wide range of Romance languages while also providing a rich set of **math, logic, and special symbols**.
+**carey** is a **keyboard layout for Romance languages**. It extends the standard English keyboard with **dead keys and accents**, enabling efficient typing in a wide range of Romance languages while also providing a rich set of **math, logic, and special symbols**.
 
 ---
 
 ## Dead Keys Included
 
-Guaraguao includes the following **dead keys**, used to type accented and diacritic characters:
+carey includes the following **dead keys**, used to type accented and diacritic characters:
 
 ```
 ´ ¨ ^ ˇ ˘ ¯ ° ~ ¸ ˛
@@ -24,18 +24,18 @@ These allow typing characters such as:
 
 ## Installation (NixOS)
 
-Guaraguao is distributed as a plain XKB symbols file plus a NixOS module. There's no package to build or install manually, you register it declaratively via [`services.xserver.xkb.extraLayouts`](https://search.nixos.org/options?query=services.xserver.xkb.extraLayouts), which works for X11 sessions and for Wayland compositors that read the system XKB database (Sway, Hyprland, etc. Sway just needs its own `xkb_layout` line pointed at it, see below).
+carey is distributed as a plain XKB symbols file plus a NixOS module. There's no package to build or install manually, you register it declaratively via [`services.xserver.xkb.extraLayouts`](https://search.nixos.org/options?query=services.xserver.xkb.extraLayouts), which works for X11 sessions and for Wayland compositors that read the system XKB database (Sway, Hyprland, etc. Sway just needs its own `xkb_layout` line pointed at it, see below).
 
 ### With flakes
 
 ```nix
 {
-  inputs.guaraguao.url = "github:rama-oi/guaraguao";
+  inputs.carey.url = "github:rama-oi/carey";
 
-  outputs = { nixpkgs, guaraguao, ... }: {
+  outputs = { nixpkgs, carey, ... }: {
     nixosConfigurations.yourhost = nixpkgs.lib.nixosSystem {
       modules = [
-        guaraguao.nixosModules.default
+        carey.nixosModules.default
         ./configuration.nix
       ];
     };
@@ -43,14 +43,14 @@ Guaraguao is distributed as a plain XKB symbols file plus a NixOS module. There'
 }
 ```
 
-That registers the layout under the name `guaraguao`. Nothing else in your config needs to change unless you want it active somewhere specific. see below.
+That registers the layout under the name `carey`. Nothing else in your config needs to change unless you want it active somewhere specific. see below.
 
 ### Without flakes
 
 ```nix
 services.xserver.xkb.extraLayouts =
   (import (fetchTarball
-    "https://github.com/rama-oi/guaraguao/archive/refs/heads/master.tar.gz"
+    "https://github.com/rama-oi/carey/archive/refs/heads/master.tar.gz"
   )).extraLayouts;
 ```
 
@@ -59,23 +59,23 @@ services.xserver.xkb.extraLayouts =
 For a plain X11 session:
 
 ```nix
-services.xserver.xkb.layout = "us,guaraguao";
+services.xserver.xkb.layout = "us,carey";
 ```
 
 For **Sway** (or another Wayland compositor that doesn't read `services.xserver.xkb.layout` on its own), set it directly in the compositor config:
 
 ```
 input "type:keyboard" {
-    xkb_layout "us,guaraguao"
+    xkb_layout "us,carey"
     xkb_options "grp:win_space_toggle"
 }
 ```
 
-Adjust `xkb_options` to whatever toggle key combo you prefer, or drop `us,` if you want guaraguao as your only layout.
+Adjust `xkb_options` to whatever toggle key combo you prefer, or drop `us,` if you want carey as your only layout.
 
 ---
 
-## Guaraguao Keyboard Layout
+## carey Keyboard Layout
 
 | Key | Default | Shift | AltGr           | Shift+AltGr |   |
 | --- | ------- | ----- | --------------- | ----------- | - |
@@ -131,7 +131,7 @@ Adjust `xkb_options` to whatever toggle key combo you prefer, or drop `us,` if y
 
 ## Layout Information
 
-* **Name:** `guaraguao`
+* **Name:** `carey`
 * **Short Description:** `gua`
 * **Supported Languages:** See the detailed list above
 * **Dead Keys:** `´ ¨ ^ ˇ ˘ ¯ ° ~ ¸ ˛`
@@ -140,5 +140,5 @@ Adjust `xkb_options` to whatever toggle key combo you prefer, or drop `us,` if y
 
 ## Notes
 
-* Guaraguao is just the XKB `symbols/guaraguao` file plus a Nix module. no binaries, no post-install scripting, nothing that touches system files outside of what Nix builds declaratively.
+* carey is just the XKB `symbols/carey` file plus a Nix module. no binaries, no post-install scripting, nothing that touches system files outside of what Nix builds declaratively.
 * License: GPL-3.0, see `license.md`.

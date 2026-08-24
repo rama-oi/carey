@@ -1,7 +1,7 @@
 default  partial alphanumeric_keys modifier_keys
 xkb_symbols "basic" {
 
-    name[Group1]= "Guaraguao";
+    name[Group1]= "carey";
 
     // Number row with dead keys and basic math/logical symbols
     key <TLDE> {[ grave, asciitilde, dead_grave ]};
